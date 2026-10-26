@@ -3,7 +3,7 @@ import cors from "cors"
 import 'dotenv/config'
 
 const app = express();
-const PORT = process.env.PORT | 5000;
+const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json())
 
@@ -29,6 +29,14 @@ export async function connectToMongoDB() {
 app.get( '/', (req,res)=>{
   res.send("This is Home of server")
 })
+
+app.post("/add-dest", async (req, res) => {
+  
+    const Dest = req.body;
+
+    const result = await Destinations.insertOne(Dest);
+res.send(result)
+});
 
 app.get( '/Destinations', async (req,res)=>{
   const cursor = Destinations.find({});
